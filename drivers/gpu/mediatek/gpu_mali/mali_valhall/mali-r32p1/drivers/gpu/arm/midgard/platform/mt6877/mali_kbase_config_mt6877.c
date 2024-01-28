@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0
 /*
  *
- * (C) COPYRIGHT 2011-2017 ARM Limited. All rights reserved.
+ * (C) COPYRIGHT 2011-2017, 2020 ARM Limited. All rights reserved.
  *
  * This program is free software and is provided to you under the terms of the
  * GNU General Public License version 2 as published by the Free Software
@@ -34,8 +35,8 @@
 #include "ged_dvfs.h"
 #include "mtk_gpufreq.h"
 #include "mtk_idle.h"
-#ifdef CONFIG_MTK_GPU_SWPM_SUPPORT
-#include <mtk_gpu_power_sspm_ipi.h>
+#if IS_ENABLED(CONFIG_MTK_GPU_SWPM_SUPPORT)
+//#include <mtk_gpu_power_sspm_ipi.h>
 #endif
 
 #define MALI_TAG				"[GPU/MALI]"
@@ -67,7 +68,7 @@ enum gpu_dvfs_status_step {
 
 static inline void gpu_dvfs_status_footprint(enum gpu_dvfs_status_step step)
 {
-#ifdef CONFIG_MTK_RAM_CONSOLE
+#if IS_ENABLED(CONFIG_MTK_RAM_CONSOLE)
 	aee_rr_rec_gpu_dvfs_status(step |
 				(aee_rr_curr_gpu_dvfs_status() & 0xF0));
 #endif
@@ -75,7 +76,7 @@ static inline void gpu_dvfs_status_footprint(enum gpu_dvfs_status_step step)
 
 static inline void gpu_dvfs_status_reset_footprint(void)
 {
-#ifdef CONFIG_MTK_RAM_CONSOLE
+#if IS_ENABLED(CONFIG_MTK_RAM_CONSOLE)
 	aee_rr_rec_gpu_dvfs_status(0);
 #endif
 }
@@ -185,8 +186,8 @@ static int pm_callback_power_on(struct kbase_device *kbdev)
 	mutex_lock(&g_mfg_lock);
 
 	ret = pm_callback_power_on_nolock(kbdev);
-#ifdef CONFIG_MTK_GPU_SWPM_SUPPORT
-	MTKGPUPower_model_resume();
+#if IS_ENABLED(CONFIG_MTK_GPU_SWPM_SUPPORT)
+//	MTKGPUPower_model_resume();
 #endif
 	mutex_unlock(&g_mfg_lock);
 
@@ -196,8 +197,8 @@ static int pm_callback_power_on(struct kbase_device *kbdev)
 static void pm_callback_power_off(struct kbase_device *kbdev)
 {
 	mutex_lock(&g_mfg_lock);
-#ifdef CONFIG_MTK_GPU_SWPM_SUPPORT
-	MTKGPUPower_model_suspend();
+#if IS_ENABLED(CONFIG_MTK_GPU_SWPM_SUPPORT)
+//	MTKGPUPower_model_suspend();
 #endif
 	pm_callback_power_off_nolock(kbdev);
 	mutex_unlock(&g_mfg_lock);
@@ -229,7 +230,6 @@ struct kbase_pm_callback_conf pm_callbacks = {
 	.power_resume_callback = pm_callback_power_resume,
 };
 
-// MT6781_TODO
 #ifndef CONFIG_OF
 static struct kbase_io_resources io_resources = {
 	.job_irq_number = 68,
@@ -240,7 +240,7 @@ static struct kbase_io_resources io_resources = {
 	.end = 0xFC010000 + (4096 * 4) - 1
 	}
 };
-#endif
+#endif /* CONFIG_OF */
 
 static struct kbase_platform_config versatile_platform_config = {
 #ifndef CONFIG_OF
