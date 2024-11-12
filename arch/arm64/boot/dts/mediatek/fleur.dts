@@ -435,7 +435,7 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 	panel1@0 {
-		compatible = "dsi_panel_k7sr_38_0c_0a_video";
+		compatible = "dsi_panel_k7s_38_0c_0a_video";
 		reg = <0>;
 		reset-gpios = <&pio 99 0>;
 		vci-gpios = <&pio 166 0>;
@@ -449,7 +449,7 @@
 		};
 	};
      	panel2@1 {
-         	compatible = "dsi_panel_k7sr_38_0c_0b_video";
+         	compatible = "dsi_panel_k7s_38_0c_0b_video";
          	reg = <1>;
         	reset-gpios = <&pio 99 0>;
         	vci-gpios = <&pio 166 0>;
@@ -503,7 +503,7 @@
 #endif
 
 
-#include <sea/cust.dtsi>
+#include "fleur/cust.dtsi"
 #include "mediatek/cust_mt6781_camera.dtsi"
 #include "mediatek/cust_foursemi_audio.dtsi"
 #include "mediatek/cust_aw87xxx_audio.dtsi"
