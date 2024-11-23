@@ -137,3 +137,4 @@ out/
 toolchains/
 build.sh
 !drivers/input/touchscreen/mediatek/ft3418_i2c/include/firmware/fw_sample.i
+*.zip
