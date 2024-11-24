@@ -4406,6 +4406,9 @@ void dpmaif_hw_reset(unsigned char md_id)
 	udelay(500);
 
 	CCCI_BOOTUP_LOG(md_id, TAG, "%s:clear reset\n", __func__);
+
+	udelay(500);
+
 	/* reset dpmaif clr */
 #ifndef MT6297
 	reg_value = regmap_read(dpmaif_ctrl->plat_val.infra_ao_base,
